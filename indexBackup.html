@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>首頁 - 2019聖誕節</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--JS-->
+	<script src="js/script.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+	<!--Favicon-->
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<!--CSS-->
+	<link rel="stylesheet" href="css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrapper">
+	<section class="page-top">
+		<div class="container"></div>
+			<!--   -->
+		</div>
+	</section>
+	<section class="mainmenu" data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+		<!--mainmenu-->
+		<!--   -->
+	</section>
+    <section class="main">
+		<!--main content-->
+		
+
+<h2>聊天室</h2>
+<div id="chat">
+	<textarea id="history" cols="80" rows="20"></textarea>
+</div>
+
+<div id="win">
+	<textarea id="messagewin" cols="80" rows="5"></textarea>
+</div>
+
+<div id="sse">
+	<button onclick="sendMessage()">傳送對話</button>
+</div>
+
+<script type="text/javascript">
+var oHistory = $('#history');
+var oWin = $('#messagewin');
+
+if ("WebSocket" in window){
+	console.log("您的瀏覽器支援 WebSocket!");
+	var ws = new WebSocket("ws://127.0.0.1:9001");
+	//var ws = new WebSocket("ws://localhost:9001");
+	ws.onopen = function(){
+		console.log("websocket 已連線上");
+	}
+
+	ws.onmessage = function (evt) {
+		var dataReceive = evt.data;
+		console.log("資料已接收..."+dataReceive);
+		$('#history').val($('#history').val()+dataReceive+"\n");
+	};
+
+	ws.onclose = function() {
+		console.log("連線已關閉...");
+	};
+
+}else{
+	// 瀏覽器不支援 WebSocket
+	console.log("您的瀏覽器不支援 WebSocket!");
+}
+
+function sendMessage(){
+	var dataSend = oWin.val().trim();
+	ws.send(dataSend);
+	oWin.val('');
+}
+</script>
+
+	</section>
+	<footer>
+    	<!-- <div class="footer-words container">
+	<div class="footer-words_01">
+		<h4>主辦單位</h4>
+		HiNet
+	</div>
+	<div class="footer-words_02">
+		<h4>協辦單位</h4>
+		協辦單位
+	</div>
+	<div class="footer-words_03">
+		<h4>感謝</h4>
+		感謝
+	</div>
+</div>
+<div class="footer-copy">
+	<div class="container">
+	Copyright © 2005 - 2017 Internet Service by Xuite.
+	</div>
+</div> -->
+	</footer>
+</div>
+</body>
+</html>
